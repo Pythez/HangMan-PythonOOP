@@ -20,21 +20,21 @@ class CSV():
         woorden = []
 
         if self.keuze == 1:
-            file = open('programmingwoorden.csv', "r")
+            file = open('Lists/programmingwoorden.csv', "r")
             csv_reader = csv.reader(file, delimiter=',')
             for row in csv_reader:
                 woorden.append(row)
             return woorden[0]
 
         elif self.keuze == 2:
-            file = open('transportwoorden.csv', "r")
+            file = open('Lists/transportwoorden.csv', "r")
             csv_reader = csv.reader(file, delimiter=',')
             for row in csv_reader:
                 woorden.append(row)
             return woorden[0]
 
         elif self.keuze == 3:
-            file = open('voedselwoorden.csv', "r")
+            file = open('Lists/voedselwoorden.csv', "r")
             csv_reader = csv.reader(file, delimiter=',')
             for row in csv_reader:
                 woorden.append(row)
