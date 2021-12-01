@@ -4,7 +4,6 @@ HangMan - Jonas van Raemdonck
 1/12/2021 - working version with the option to enter your own word
 '''
 
-#Todo : Adding functionality to choose words
 #Todo : catching errors
 
 import random
@@ -20,30 +19,31 @@ class CSV():
         woorden = []
 
         if self.keuze == 1:
-            file = open('Lists/programmingwoorden.csv', "r")
+            file = open('Lists/programmingwords.csv', "r")
             csv_reader = csv.reader(file, delimiter=',')
             for row in csv_reader:
                 woorden.append(row)
             return woorden[0]
 
         elif self.keuze == 2:
-            file = open('Lists/transportwoorden.csv', "r")
+            file = open('Lists/transportwords.csv', "r")
             csv_reader = csv.reader(file, delimiter=',')
             for row in csv_reader:
                 woorden.append(row)
             return woorden[0]
 
         elif self.keuze == 3:
-            file = open('Lists/voedselwoorden.csv', "r")
+            file = open('Lists/foodwords.csv', "r")
             csv_reader = csv.reader(file, delimiter=',')
             for row in csv_reader:
                 woorden.append(row)
+                print(woorden[0])
             return woorden[0]
 
         elif self.keuze == 5:
             woord = input("What word do you want to play with?")
             woorden.append(woord)
-            return woorden[0]
+            return woorden
 
         else:
             print("False input")
