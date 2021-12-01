@@ -4,6 +4,9 @@ HangMan - Jonas van Raemdonck
 1/12/2021 - working version with the option to enter your own word
 '''
 
+#Todo : Adding functionality to choose words
+#Todo : catching errors
+
 import random
 import csv
 
