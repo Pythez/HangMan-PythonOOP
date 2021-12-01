@@ -6,13 +6,22 @@ HangMan - Jonas van Raemdonck
 
 #Todo : catching errors
 
+'''
+Done: 
+- new models
+- Added functionality to use a chosen word
+- Molding it into classes
+'''
+
 import random
 import csv
 
 class CSV():
+
     def __init__(self, keuze):
         print("Class: csv activated!")
         self.keuze = keuze
+
 
     def woorden_ophalen(self):
         #Woordenlijst keuze of zelf ingegeven woord
@@ -48,134 +57,140 @@ class CSV():
         else:
             print("False input")
 
-def get_word(woorden):
-    word = random.choice(woorden)
-    return word.upper()
+
+    def get_word(woorden):
+        word = random.choice(woorden)
+        return word.upper()
 
 
-def play(word):
-    word_completion = "_" * len(word)
-    guessed = False
-    guessed_letters = []
-    guessed_words = []
-    tries = 6
-    print("Welcome to hangman!")
-    print(display_hangman(tries))
-    print(word_completion)
-    print("\n")
-    while not guessed and tries > 0:
-        guess = input("Please guess a letter or word: ").upper()
-        if len(guess) == 1 and guess.isalpha():
-            if guess in guessed_letters:
-                print("You already guessed the letter", guess)
-            elif guess not in word:
-                print(guess, "is not in the word.")
-                tries -= 1
-                guessed_letters.append(guess)
-            else:
-                print("Good job,", guess, "is in the word!")
-                guessed_letters.append(guess)
-                word_as_list = list(word_completion)
-                indices = [i for i, letter in enumerate(word) if letter == guess]
-                for index in indices:
-                    word_as_list[index] = guess
-                word_completion = "".join(word_as_list)
-                if "_" not in word_completion:
-                    guessed = True
-        elif len(guess) == len(word) and guess.isalpha():
-            if guess in guessed_words:
-                print("You already guessed the word" + guess)
-            elif guess != word:
-                print(guess + "is the wrong word.")
-                tries -= 1
-                guessed_words.append(guess)
-            else:
-                guessed = True
-                word_completion = word
-        else:
-            print("Not a valid guess.")
-        print(display_hangman(tries))
+class Game():
+    def __init__(self, id):
+        self.id = 1
+
+    def play(word):
+        tries = 6
+        word_completion = "_" * len(word)
+        guessed = False
+        guessed_letters = []
+        guessed_words = []
+        print("Welcome to hangman!")
+        print(Game.display_hangman(tries))
         print(word_completion)
         print("\n")
-    if guessed:
-        print("Congrats, you guessed the word! You win!")
-    else:
-        print("Sorry, you ran out of tries. The word was " + word + ". Maybe next time!")
+        while not guessed and tries > 0:
+            guess = input("Please guess a letter or word: ").upper()
+            if len(guess) == 1 and guess.isalpha():
+                if guess in guessed_letters:
+                    print("You already guessed the letter", guess)
+                elif guess not in word:
+                    print(guess, "is not in the word.")
+                    tries -= 1
+                    guessed_letters.append(guess)
+                else:
+                    print("Good job,", guess, "is in the word!")
+                    guessed_letters.append(guess)
+                    word_as_list = list(word_completion)
+                    indices = [i for i, letter in enumerate(word) if letter == guess]
+                    for index in indices:
+                        word_as_list[index] = guess
+                    word_completion = "".join(word_as_list)
+                    if "_" not in word_completion:
+                        guessed = True
+            elif len(guess) == len(word) and guess.isalpha():
+                if guess in guessed_words:
+                    print("You already guessed the word" + guess)
+                elif guess != word:
+                    print(guess + "is not the word.")
+                    tries -= 1
+                    guessed_words.append(guess)
+                else:
+                    guessed = True
+                    word_completion = word
+            else:
+                print("Wrong guess.")
+            print(Game.display_hangman(tries))
+            print(word_completion)
+            print("\n")
+        if guessed:
+            print("Congrats, you guessed the word! You won!")
+        else:
+            print("You ran out of tries. The word was " + word + " !")
 
 
-def display_hangman(tries):
-    stages = [  # final state: head, torso, both arms, and both legs
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|/
-                   |      |
-                   |     / \\
-                   -
-                """,
-                # head, torso, both arms, and one leg
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|/
-                   |      |
-                   |     / 
-                   -
-                """,
-                # head, torso, and both arms
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|/
-                   |      |
-                   |      
-                   -
-                """,
-                # head, torso, and one arm
-                """
-                   --------
-                   |      |
-                   |      O
-                   |     \\|
-                   |      |
-                   |     
-                   -
-                """,
-                # head and torso
-                """
-                   --------
-                   |      |
-                   |      O
-                   |      |
-                   |      |
-                   |     
-                   -
-                """,
-                # head
-                """
-                   --------
-                   |      |
-                   |      O
-                   |    
-                   |      
-                   |     
-                   -
-                """,
-                # initial empty state
-                """
-                   --------
-                   |      |
-                   |      
-                   |    
-                   |      
-                   |     
-                   -
-                """
-    ]
-    return stages[tries]
+    def display_hangman(tries):
+        stages = [  # final state: head, torso, both arms, and both legs
+                    """
+                       --------
+                       |/     |
+                       |      O
+                       |     \\|/
+                       |      |
+                       |\    / \\
+                       --------
+                    """,
+                    # head, torso, both arms, and one leg
+                    """
+                       --------
+                       |/     |
+                       |      O
+                       |     \\|/
+                       |      |
+                       |\    / 
+                       --------
+                    """,
+                    # head, torso, and both arms
+                    """
+                       --------
+                       |/     |
+                       |      O
+                       |     \\|/
+                       |      |
+                       |\     
+                       --------
+                    """,
+                    # head, torso, and one arm
+                    """
+                       --------
+                       |/     |
+                       |      O
+                       |     \\|
+                       |      |
+                       |\     
+                       --------
+                    """,
+                    # head and torso
+                    """
+                       --------
+                       |/     |
+                       |      O
+                       |      |
+                       |      |
+                       |\     
+                       --------
+                    """,
+                    # head
+                    """
+                       --------
+                       |/     |
+                       |      O
+                       |    
+                       |      
+                       |\     
+                       --------
+                    """,
+                    # initial empty state
+                    """
+                       --------
+                       |/     |
+                       |      
+                       |    
+                       |      
+                       |\     
+                       -------- 
+                    """
+        ]
+        return stages[tries]
+
 
 
 def main():
@@ -197,8 +212,8 @@ def main():
             print("Dat was geen valide getal.")
     csv1 = CSV(keuze)
     woord = CSV.woorden_ophalen(csv1)
-    word = get_word(woord)
-    play(word)
+    game1 = Game(1)
+    Game.play(CSV.get_word(woord))
     while input("Play Again? (Y/N) ").upper() == "Y":
         print('')
         print('')
